@@ -1,17 +1,17 @@
-const express=require("express");
-const mongoose=require("mongoose");
-const cors=require("cors");
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
 require("dotenv").config();
 
-const User=require("./models/User");
-const Post=require("./models/Post");
-const upload=require("./multer");
-const verifyToken=require("./middleware/auth");
-const cloudinary=require("./cloudinary");
-const bcrypt=require("bcrypt");
-const jwt=require("jsonwebtoken");
+const User = require("./models/User");
+const Post = require("./models/Post");
+const upload = require("./multer");
+const verifyToken = require("./middleware/auth");
+const cloudinary = require("./cloudinary");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-const app=express();
+const app = express();
 
 
 /* MIDDLEWARE */
