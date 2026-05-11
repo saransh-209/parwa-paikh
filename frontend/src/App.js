@@ -27,7 +27,7 @@ const ProtectedRoute = ({ children }) => {
 function App() {
 
   // 🌙 THEME STATE (GLOBAL)
-  const [theme, setTheme] = useState("dark");
+  const [theme] = useState("dark");
 
   useEffect(() => {
     document.body.className = theme;
