@@ -57,7 +57,7 @@ const fetchPost = async () => {
 try {
 
 const res = await axios.get(
-`http://localhost:5000/post/${id}`
+`${process.env.REACT_APP_API_URL}/post/${id}`
 );
 
 setData({
@@ -146,7 +146,7 @@ finalFile
 
 /* POST used instead of PUT */
 await axios.post(
-`http://localhost:5000/post/update/${id}`,
+`${process.env.REACT_APP_API_URL}/post/update/${id}`,
 formData,
 {
 headers: {

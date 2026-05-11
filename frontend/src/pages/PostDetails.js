@@ -21,7 +21,7 @@ const fetchPost=async()=>{
 try{
 
 const res=await axios.get(
-`http://localhost:5000/post/${id}`
+ `${process.env.REACT_APP_API_URL}/post/${id}`
 );
 
 setPost(res.data);
@@ -43,7 +43,7 @@ const handleDelete=async()=>{
 try{
 
 await axios.delete(
-`http://localhost:5000/post/${id}`,
+`${process.env.REACT_APP_API_URL}/post/${id}`,
 {
 headers:{
 Authorization:

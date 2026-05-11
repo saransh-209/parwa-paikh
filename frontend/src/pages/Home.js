@@ -52,7 +52,7 @@ setShowRetry(true);
 },5000);
 
 axios
-.get("http://localhost:5000/posts")
+.get(`${process.env.REACT_APP_API_URL}/posts`)
 .then(res=>{
 setPosts(res.data);
 })

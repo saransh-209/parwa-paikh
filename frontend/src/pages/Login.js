@@ -24,7 +24,7 @@ function Login() {
       setLoading(true);
 
       const res = await axios.post(
-        "http://localhost:5000/login",
+        `${process.env.REACT_APP_API_URL}/login`,
         data
       );
 

@@ -30,13 +30,13 @@ function Signup() {
 
       // 🔐 SIGNUP
       await axios.post(
-        "http://localhost:5000/signup",
+        `${process.env.REACT_APP_API_URL}/signup`,
         data
       );
 
       // 🔥 AUTO LOGIN
       const loginRes = await axios.post(
-        "http://localhost:5000/login",
+        `${process.env.REACT_APP_API_URL}/login`,
         {
           email: data.email,
           password: data.password

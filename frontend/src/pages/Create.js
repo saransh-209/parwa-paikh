@@ -81,7 +81,7 @@ finalFile
 
 
 await axios.post(
-"http://localhost:5000/create",
+`${process.env.REACT_APP_API_URL}/create`,
 formData,
 {
 headers: {

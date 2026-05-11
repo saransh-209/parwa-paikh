@@ -22,7 +22,7 @@ function Dashboard() {
   // 🔐 USER
   const fetchUser = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/dashboard", {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/dashboard`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
       setUser(res.data);
@@ -34,7 +34,7 @@ function Dashboard() {
   // 🔥 POSTS
   const fetchPosts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/posts");
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/posts`);
       setPosts(res.data);
     } catch (err) {
       console.log(err);
