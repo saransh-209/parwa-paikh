@@ -29,7 +29,7 @@ return [];
 });
 const [showHistory,setShowHistory]=useState(false);
 const [loading,setLoading]=useState(true);
-const [showRetry,setShowRetry]=useState(false);
+const [,setShowRetry]=useState(false);
 const [visiblePosts,setVisiblePosts]=useState(12);
 const [showLogoutModal,setShowLogoutModal]=useState(false);
 
