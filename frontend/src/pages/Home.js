@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "../index.css";
+import desktopBg from "../assets/desktop-bg.jpg";
 import mobileBg from "../assets/mobile-bg.png";
 
 function Home(){
@@ -477,11 +478,9 @@ width:'100%',
 overflowX:'hidden',
 backgroundColor:'rgb(17, 20, 54)',
 
-backgroundImage:`
+backgroundImage: `
 linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.15)),
-url(${window.innerWidth <= 768
-? mobileBg
-: "https://res.cloudinary.com/djhio7kqd/image/upload/v1777919102/ChatGPT_Image_May_4_2026_11_47_57_PM_rsfpn5.png"})
+url(${window.innerWidth <= 768 ? mobileBg : desktopBg})
 `,
 
 backgroundSize:
