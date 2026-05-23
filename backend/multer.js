@@ -1,13 +1,32 @@
-const multer=require("multer");
-const {CloudinaryStorage}=require("multer-storage-cloudinary");
-const cloudinary=require("./cloudinary");
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("./cloudinary");
 
-const storage=new CloudinaryStorage({
-cloudinary,
-params:{
-folder:"posts",
-allowed_formats:["jpg","png","jpeg","webp"]
-}
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "posts",
+    allowed_formats: ["jpg", "png", "jpeg", "webp"]
+  }
 });
 
-module.exports=multer({storage});
+const upload = multer({
+  storage,
+
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB
+  },
+
+  fileFilter: (req, file, cb) => {
+
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only images allowed"), false);
+    }
+
+  }
+
+});
+
+module.exports = upload;
