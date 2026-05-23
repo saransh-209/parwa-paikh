@@ -2,6 +2,7 @@ import { useEffect,useState } from "react";
 import { useParams,useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaEdit,FaTrash } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 function PostDetails(){
 
@@ -52,14 +53,14 @@ Authorization:
 }
 );
 
-alert("Post deleted 🗑️");
+toast.success("Post deleted 🗑️");
 
 navigate("/");
 
 }
 catch(err){
 console.log(err);
-alert("Error deleting ❌");
+toast.error("Error deleting ❌");
 }
 
 };

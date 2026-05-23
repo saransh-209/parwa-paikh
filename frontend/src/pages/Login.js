@@ -18,7 +18,7 @@ function Login() {
 
     try {
       if (!data.email || !data.password) {
-        return alert("Please fill all fields ❗");
+        return toast.error("Please fill all fields ❗");
       }
 
       setLoading(true);
@@ -43,7 +43,7 @@ function Login() {
 
     } catch (err) {
       console.log(err);
-      alert(err.response?.data || "Login failed ❌");
+      toast.error(err.response?.data || "Login failed ❌");
     } finally {
       setLoading(false);
     }

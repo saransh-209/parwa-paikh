@@ -4,6 +4,7 @@ import imageCompression from "browser-image-compression";
 import { useNavigate } from "react-router-dom";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "../utils/cropImage";
+import { toast } from "react-toastify";
 
 function Create() {
 
@@ -40,7 +41,7 @@ const handleSubmit = async () => {
 try {
 
 if (!data.title || !data.content) {
-return alert("Fill all fields ❗");
+return toast.error("Fill all fields ❗");
 }
 
 setLoading(true);
@@ -91,7 +92,7 @@ Authorization: `Bearer ${token}`,
 }
 );
 
-alert("Post created 🔥");
+toast.success("Post created 🔥");
 
 setData({
 title: "",
@@ -108,7 +109,7 @@ catch (err) {
 
 console.log(err);
 
-alert(
+toast.error(
 err.response?.data || "Error ❌"
 );
 
@@ -229,7 +230,7 @@ catch (err) {
 
 console.log(err);
 
-alert("Image processing failed");
+toast.error("Image processing failed");
 
 }
 

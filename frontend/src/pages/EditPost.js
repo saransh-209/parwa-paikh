@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "../utils/cropImage";
-
+import { toast } from "react-toastify";
 function EditPost() {
 
 const { id } = useParams();
@@ -96,7 +96,7 @@ localStorage.getItem("token");
 
 if (!token) {
 
-alert("Please login again");
+toast.error("Please login again");
 
 navigate("/login");
 
@@ -157,7 +157,7 @@ Authorization: token,
 }
 );
 
-alert("Post updated ✏️");
+toast.success("Post updated ✏️");
 
 navigate(`/post/${id}`);
 
@@ -169,7 +169,7 @@ err.response?.data ||
 err.message
 );
 
-alert(
+toast.error(
 err.response?.data ||
 "Error updating ❌"
 );

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Signup() {
 
@@ -23,8 +24,18 @@ function Signup() {
     try {
 
       if (!data.name || !data.email || !data.password) {
-        return alert("Please fill all fields ❗");
+        return toast.error("Please fill all fields ❗");
       }
+      if (data.password.length < 6) {
+  return toast.error("Password must be at least 6 characters 🔐");
+}
+
+const emailRegex =
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if (!emailRegex.test(data.email)) {
+  return toast.error("Invalid email ❌");
+}
 
       setLoading(true);
 
@@ -59,7 +70,7 @@ function Signup() {
         loginRes.data.user.name
       );
 
-      alert(`Welcome ${loginRes.data.user.name} 🔥`);
+      toast.success(`Welcome ${loginRes.data.user.name} 🔥`);
 
       // 🚀 REDIRECT
       navigate("/dashboard");
@@ -68,7 +79,7 @@ function Signup() {
 
       console.log(err);
 
-      alert(
+      toast.error(
         err.response?.data ||
         "Something went wrong ❌"
       );
