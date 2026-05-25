@@ -512,8 +512,8 @@ backgroundImage:
 window.innerWidth <= 768
 
 ? `linear-gradient(
-rgba(0,0,0,0.10),
-rgba(0,0,0,0.10)
+rgba(0,0,0,0.05),
+rgba(0,0,0,0.05)
 ),
 url(${mobileBg})`
 
@@ -530,7 +530,7 @@ backgroundRepeat:'no-repeat',
 
 backgroundPosition:
 window.innerWidth <= 768
-? 'center top'
+? 'top center'
 : 'top center',
 
 backgroundColor:'#111436'
@@ -546,24 +546,41 @@ cursor:'pointer'
 }),
 
 navbar:(theme)=>({
+
 position:'sticky',
 top:0,
 zIndex:999,
+
 display:'flex',
 justifyContent:'space-between',
 alignItems:'center',
-padding:'10px 18px',
-minHeight:'70px',
-flexWrap:'wrap',
 
+padding:'10px 18px',
+
+height:'70px',
+
+flexWrap:'wrap',
 background:
+window.innerWidth <= 768
+? theme==="dark"
+? 'rgba(15, 23, 42, 0.72)'
+: 'rgba(226, 226, 207, 0.83)'
+:
 theme==="dark"
 ? 'rgba(15, 23, 42, 0.72)'
 : 'rgba(226, 226, 207, 0.83)',
 
-backdropFilter:'blur(12px)',
+backdropFilter:
+window.innerWidth <= 768
+? 'blur(1px)'
+: 'blur(2px)',
 
 borderBottom:
+window.innerWidth <= 768
+? theme==="dark"
+? '1px solid rgba(255,255,255,0.08)'
+: '1px solid rgba(0,0,0,0.06)'
+:
 theme==="dark"
 ? '1px solid rgba(255,255,255,0.08)'
 : '1px solid rgba(0,0,0,0.06)',
@@ -623,32 +640,51 @@ color: theme==="dark" ? "#c2c4eb": "#161720",
 }),
 
 centerBox:{
-minHeight:'95vh',
+minHeight:'calc(100vh - 90px)',
 display:'flex',
 justifyContent:'center',
 alignItems:'center',
-padding:'20px'
+padding:'20px',
+paddingTop:'0px',
+marginTop:
+window.innerWidth <= 768
+? '-20px'
+: '0px',
+marginBottom:
+window.innerWidth <= 768
+? '20px'
+: '0px',
 },
 
 glass:{
-padding:'50px',
+padding: window.innerWidth <= 768 ? '25px' : '18px',
 display:'flex',
 flexDirection:'column',
 alignItems:'center',
 textAlign:'center',
 background:'rgba(255,255,255,0.14)',
-backdropFilter:'blur(12px)',
-borderRadius:'30px',
-width:'90%',
-maxWidth:'650px',
-boxShadow:'0 0 30px rgba(0,0,0,0.18)'
+backdropFilter:'blur(2px)',
+borderRadius:'28px',
+width: window.innerWidth <= 768 ? '275px' : '650px',
+maxWidth: window.innerWidth <= 768 ? '360px' : '700px',
+height: window.innerWidth <= 768 ? '390px' : '350px',
+maxHeight: window.innerWidth <= 768 ? '400px' : '450px',
+boxShadow:
+window.innerWidth <= 768
+? '0 0 18px rgba(0,0,0,0.12)'
+: '0 0 30px rgba(0,0,0,0.18)',
 },
 
 heading:(theme)=>({
-fontSize:'clamp(42px,7vw,78px)',
+fontSize:
+window.innerWidth <= 768
+? '48px'
+: '68px',
+
 marginBottom:'10px',
 lineHeight:'1.1',
 textAlign:'center',
+
 color:theme==="dark"
 ? "#171f68"
 : "#0986e5f4",
@@ -664,10 +700,16 @@ color:theme==="dark"
 
 subtext:(theme)=>({
 marginTop:'10px',
-marginBottom:'30px',
-fontSize:'clamp(18px,2vw,28px)',
+marginBottom:'26px',
+
+fontSize:
+window.innerWidth <= 768
+? '18px'
+: '28px',
+
 lineHeight:'1.5',
 textAlign:'center',
+
 color:theme==="dark"
 ? "#2d2d2d"
 : "#6a401ee2",
@@ -797,11 +839,20 @@ border:'none'
 }),
 
 footer:(theme)=>({
-padding:'20px',
+padding:'10px 15px',
+fontSize:'14px',
+blur:'2px',
 textAlign:'center',
-background:'#08090bde',
-color:'#fbfbfcbd',
-marginTop:'auto'
+background:
+theme==="dark" 
+? "#08090bde"
+: "#c8d2f0ea",
+color:theme==="dark" 
+? "#fbfbfcbd"
+: "#0d0d0de8",
+marginTop:'auto',
+fontWeight:'450',
+marginBottom:'0',
 }),
 
 overlay:{
