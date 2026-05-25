@@ -521,8 +521,8 @@ url(${mobileBg})`
 
 backgroundSize:
 window.innerWidth <= 768
-? 'cover'
-: 'cover',
+? 'contain'
+: '100% auto',
 
 backgroundRepeat:'no-repeat',
 
