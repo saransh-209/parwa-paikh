@@ -499,7 +499,6 @@ minHeight:'100vh',
 display:'flex',
 flexDirection:'column'
 },
-
 fullBgContainer:{
 minHeight:'100vh',
 display:'flex',
@@ -510,7 +509,6 @@ overflowX:'hidden',
 
 backgroundImage:
 window.innerWidth <= 768
-
 ? `linear-gradient(
 rgba(0,0,0,0.05),
 rgba(0,0,0,0.05)
@@ -523,15 +521,12 @@ url(${mobileBg})`
 
 backgroundSize:
 window.innerWidth <= 768
-? 'contain'
-: '100% auto',
+? 'cover'
+: 'cover',
 
 backgroundRepeat:'no-repeat',
 
-backgroundPosition:
-window.innerWidth <= 768
-? 'top center'
-: 'top center',
+backgroundPosition:'center top',
 
 backgroundColor:'#111436'
 },
@@ -645,36 +640,31 @@ display:'flex',
 justifyContent:'center',
 alignItems:'center',
 padding:'20px',
-paddingTop:'0px',
-marginTop:
-window.innerWidth <= 768
-? '-20px'
-: '0px',
-marginBottom:
-window.innerWidth <= 768
-? '20px'
-: '0px',
+width:'100%',
+maxWidth:'1400px',
+margin:'0 auto',
 },
 
 glass:{
-padding: window.innerWidth <= 768 ? '25px' : '18px',
+padding: window.innerWidth <= 768 ? '25px' : '50px',
 display:'flex',
 flexDirection:'column',
+justifyContent:'center',
 alignItems:'center',
 textAlign:'center',
-background:'rgba(255,255,255,0.14)',
-backdropFilter:'blur(2px)',
-borderRadius:'28px',
-width: window.innerWidth <= 768 ? '275px' : '650px',
-maxWidth: window.innerWidth <= 768 ? '360px' : '700px',
-height: window.innerWidth <= 768 ? '390px' : '350px',
-maxHeight: window.innerWidth <= 768 ? '400px' : '450px',
-boxShadow:
-window.innerWidth <= 768
-? '0 0 18px rgba(0,0,0,0.12)'
-: '0 0 30px rgba(0,0,0,0.18)',
-},
 
+background:'rgba(255,255,255,0.12)',
+backdropFilter:'blur(8px)',
+
+borderRadius:'28px',
+
+width:'100%',
+maxWidth: window.innerWidth <= 768 ? '320px' : '700px',
+
+minHeight: window.innerWidth <= 768 ? '390px' : '420px',
+
+boxShadow:'0 0 30px rgba(0,0,0,0.18)',
+},
 heading:(theme)=>({
 fontSize:
 window.innerWidth <= 768
