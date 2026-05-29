@@ -633,44 +633,43 @@ display:'flex',
 justifyContent:'center',
 alignItems:'center',
 padding:'20px',
+paddingTop:'0px',
 marginTop:
 window.innerWidth <= 768
-? '-80px'
+? '-20px'
 : '0px',
 marginBottom:
 window.innerWidth <= 768
-? '0px'
+? '20px'
 : '0px',
 },
 
 
 glass:{
-padding: window.innerWidth <= 768 ? '20px' : '18px',
+padding: window.innerWidth <= 768 ? '25px' : '18px',
 display:'flex',
 flexDirection:'column',
 justifyContent:'center',
 alignItems:'center',
 textAlign:'center',
-background:'rgba(255,255,255,0.10)',
+background:'rgba(255,255,255,0.12)',
 backdropFilter:'blur(2px)',
-borderRadius:'24px',
-
-width: window.innerWidth <= 768 ? '250px' : '650px',
-maxWidth: window.innerWidth <= 768 ? '250px' : '700px',
-
-height: window.innerWidth <= 768 ? '300px' : '350px',
-
+borderRadius:'28px',
+width: window.innerWidth <= 768 ? '275px' : '650px',
+maxWidth: window.innerWidth <= 768 ? '360px' : '700px',
+height: window.innerWidth <= 768 ? '390px' : '350px',
+maxHeight: window.innerWidth <= 768 ? '400px' : '450px',
 boxShadow:
 window.innerWidth <= 768
-? '0 0 10px rgba(0,0,0,0.08)'
-: '0 0 20px rgba(0,0,0,0.12)',
+? '0 0 18px rgba(0,0,0,0.12)'
+: '0 0 30px rgba(0,0,0,0.18)',
 },
 
 
 heading:(theme)=>({
 fontSize:
 window.innerWidth <= 768
-? '34px'
+? '48px'
 : '68px',
 
 marginBottom:'10px',
@@ -770,49 +769,22 @@ color:theme==="dark"
 }),
 
 grid:{
-display:'flex',
-flexDirection:
-window.innerWidth <= 768
-? 'column'
-: 'grid',
-
-gap:'20px'
+display:'grid',
+gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))',
+gap:'25px'
 },
 
 card:(theme)=>({
 background:theme==="dark"
-? "#0b102b"
-: "#ffffff",
-
-borderRadius:'18px',
+? "#258cedbd"
+: "#3b1d95dc",
+borderRadius:'12px',
 overflow:'hidden',
-cursor:'pointer',
-
-display:
-window.innerWidth <= 768
-? 'flex'
-: 'block',
-
-alignItems:'center',
-
-border:'1px solid rgba(255,255,255,0.08)',
-
-boxShadow:'0 8px 20px rgba(0,0,0,0.15)'
+cursor:'pointer'
 }),
 
 image:{
-height:
-window.innerWidth <= 768
-? '110px'
-: '220px',
-
-width:
-window.innerWidth <= 768
-? '140px'
-: '100%',
-
-flexShrink:0,
-
+height:'220px',
 overflow:'hidden',
 background:'#111827'
 },
@@ -834,29 +806,18 @@ color:'#c2cad7'
 },
 
 cardBody:(theme)=>({
-padding:'15px',
-flex:1,
-display:'flex',
-flexDirection:'column',
-justifyContent:'center'
+padding:'15px'
 }),
 
 postTitle:(theme)=>({
-fontSize:
-window.innerWidth <= 768
-? '22px'
-: '20px',
-
-fontWeight:'700',
-color:'#fff',
-
-marginBottom:'10px'
+fontSize:'20px',
+color:'#fff'
 }),
 
 author:(theme)=>({
 fontSize:'16px',
-marginTop:'5px',
-color:'#fbbf24'
+marginTop:'10px',
+color:'#efc08ed8'
 }),
 
 postBtn:(theme)=>({
