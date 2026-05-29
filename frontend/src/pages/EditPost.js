@@ -150,7 +150,7 @@ await axios.post(
 formData,
 {
 headers: {
-Authorization: token,
+Authorization: `Bearer ${token}`,
 "Content-Type":
 "multipart/form-data"
 }

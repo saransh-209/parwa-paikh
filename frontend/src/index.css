@@ -1,87 +1,81 @@
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html,
 body,
-#root{
-  width:100%;
-  min-height:100%;
-  overflow-x:hidden;
-  background:#020617;
+#root {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  background: #020617;
 }
+
 body {
   margin: 0;
-  overflow-x: hidden; 
-  font-family: '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    'sans-serif';
-
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   transition: all 0.3s ease;
 }
 
-/* 🔥 DARK MODE */
+/* DARK MODE */
 body.dark {
   background: #0f172a;
   color: white;
 }
 
-/* ☀️ LIGHT MODE */
+/* LIGHT MODE */
 body.light {
   background: #f1f5f9;
   color: #0f172a;
 }
 
-
-/* 🔥 GLASS BASE */
+/* GLASS BASE */
 .glass-box {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(1px);
   -webkit-backdrop-filter: blur(8px);
-
   border-radius: 30px;
   border: 1px solid rgba(70, 73, 73, 0.103);
-
   transition: all 0.4s ease;
 }
 
-/* 🌙 DARK GLASS */
+/* DARK GLASS */
 body.dark .glass-box {
   background: rgba(255, 255, 255, 0.05);
 }
 
-/* ☀️ LIGHT GLASS */
+/* LIGHT GLASS */
 body.light .glass-box {
   background: rgba(154, 7, 7, 0.05);
 }
 
-
-/* ✨ HOVER GLOW */
+/* HOVER GLOW */
 .glass-box:hover {
   background: rgba(255, 255, 255, 0.08);
-
   box-shadow:
     0 0 20px rgba(40, 130, 157, 0.3),
     0 0 10px rgba(39, 124, 161, 0.3);
-
   transform: translateY(-15px) scale(1.05);
 }
 
-
-/* 🔥 CARD HOVER */
+/* CARD HOVER */
 .card-hover:hover {
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0 15px 40px rgba(40, 10, 209, 0.454);
 }
 
+.card-hover:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.08);
+}
 
-/* 🔥 ANIMATION */
+/* ANIMATIONS */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -93,54 +87,41 @@ body.light .glass-box {
   }
 }
 
+@keyframes pulse {
+  0%   { opacity: .5; }
+  50%  { opacity: 1; }
+  100% { opacity: .5; }
+}
 
-/* 🔥 BUTTONS */
+@keyframes shimmer {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(350%); }
+}
+
+@keyframes dangerShake {
+  0%   { transform: translateX(0); }
+  25%  { transform: translateX(-3px); }
+  50%  { transform: translateX(3px); }
+  75%  { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
+/* BUTTONS */
 button {
   transition: all 0.3s ease;
 }
 
 button:hover {
-  filter: brightness(1.5);
+  filter: brightness(1.08);
   transform: translateY(-2px);
 }
 
+button[style*="ef4444"]:hover {
+  animation: dangerShake 0.35s ease;
+  box-shadow: 0 0 18px rgba(239, 68, 68, 0.45);
+}
 
-/* 🔥 CODE FONT */
+/* CODE FONT */
 code {
-  font-family: 'source-code-pro, Menlo, Monaco, Consolas, Courier New,monospace';
-}
-
-/*skeletal */
-@keyframes pulse{
-0%{opacity:.5}
-50%{opacity:1}
-100%{opacity:.5}
-}
-
-@keyframes shimmer{
-0%{transform:translateX(0);}
-100%{transform:translateX(350%);}
-}
-
-.card-hover:hover img{
-transform:scale(1.1);
-filter:brightness(1.08);
-}
-
-/* 🔥 Danger Shake Hover */
-@keyframes dangerShake{
-0%{transform:translateX(0);}
-25%{transform:translateX(-3px);}
-50%{transform:translateX(3px);}
-75%{transform:translateX(-3px);}
-100%{transform:translateX(0);}
-}
-
-button:hover{
-filter:brightness(1.08);
-}
-
-button[style*="ef4444"]:hover{
-animation:dangerShake .35s ease;
-box-shadow:0 0 18px rgba(239,68,68,.45);
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
