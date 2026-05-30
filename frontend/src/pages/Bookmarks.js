@@ -18,7 +18,7 @@ function Bookmarks() {
     } catch {
       setBookmarks([]);
     }
-  }, [token]);
+  }, [token, navigate]);
 
   const removeBookmark = (id) => {
     const updated = bookmarks.filter(p => p._id !== id);
