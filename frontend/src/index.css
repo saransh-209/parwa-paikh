@@ -94,8 +94,8 @@ body.light .glass-box {
 }
 
 @keyframes shimmer {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(350%); }
+  0%   { left: -100%; }
+  100% { left: 150%; }
 }
 
 @keyframes dangerShake {
