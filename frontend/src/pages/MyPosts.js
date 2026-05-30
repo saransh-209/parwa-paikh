@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -10,19 +10,30 @@ function MyPosts() {
   const isDark = (localStorage.getItem("theme") || "dark") === "dark";
   const token  = localStorage.getItem("token");
 
-  const [posts, setPosts]           = useState([]);
-  const [loading, setLoading]       = useState(true);
-  const [deleteId, setDeleteId]     = useState(null);
+  const [posts, setPosts]       = useState([]);
+  const [loading, setLoading]   = useState(true);
+  const [deleteId, setDeleteId] = useState(null);
+
+  const fetchMyPosts = useCallback(async () => {
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/my-posts`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setPosts(res.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  }, [token]);
 
   useEffect(() => {
-    if (!token) { navigate("/login"); return; }
-    axios.get(`${process.env.REACT_APP_API_URL}/my-posts`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(r => setPosts(r.data))
-      .catch(console.log)
-      .finally(() => setLoading(false));
-  }, [token, navigate]);
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+    fetchMyPosts();
+  }, [token, navigate, fetchMyPosts]); // ✅ all deps added
 
   const handleDelete = async (id) => {
     try {
@@ -38,8 +49,7 @@ function MyPosts() {
     }
   };
 
-  const fmtDate  = (d) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
-
+  const fmtDate    = (d) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
   const badgeColor = { Poetry: "#7c3aed", Lyrics: "#0891b2", Story: "#065f46", Thoughts: "#92400e" };
 
   return (
@@ -103,7 +113,6 @@ function MyPosts() {
           <div style={S.grid}>
             {posts.map(post => (
               <div key={post._id} style={S.card(isDark)}>
-                {/* Image */}
                 <div style={{ height: "180px", overflow: "hidden", background: "#111827", position: "relative" }}>
                   {post.image
                     ? <img src={post.image} alt="cover" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -115,13 +124,9 @@ function MyPosts() {
                     </div>
                   )}
                 </div>
-
-                {/* Body */}
                 <div style={{ padding: "14px 16px" }}>
                   <h3 style={{ fontSize: "17px", fontWeight: 700, color: isDark ? "#fff" : "#111", marginBottom: "6px", lineHeight: 1.3 }}>{post.title}</h3>
                   {post.createdAt && <p style={{ fontSize: "12px", color: isDark ? "#94a3b8" : "#888", marginBottom: "14px" }}>📅 {fmtDate(post.createdAt)}</p>}
-
-                  {/* Actions */}
                   <div style={{ display: "flex", gap: "8px" }}>
                     <button style={S.viewBtn(isDark)} onClick={() => navigate(`/post/${post._id}`)}>👁 View</button>
                     <button style={S.editBtn} onClick={() => navigate(`/edit/${post._id}`)}>✏ Edit</button>
@@ -157,20 +162,20 @@ function MyPosts() {
 }
 
 const S = {
-  page:    (isDark) => ({ minHeight: "100vh", display: "flex", flexDirection: "column", background: isDark ? "#0d0d1a" : "#f8f9fc" }),
-  navbar:  (isDark) => ({ position: "sticky", top: 0, zIndex: 999, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 24px", height: "64px", background: isDark ? "rgba(10,10,20,0.95)" : "rgba(255,255,255,0.95)", backdropFilter: "blur(16px)", borderBottom: isDark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)", flexWrap: "wrap", gap: "8px" }),
-  navBtn:  (isDark, active) => ({ padding: "8px 14px", borderRadius: "10px", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: active ? 700 : 500, background: active ? "linear-gradient(135deg,#7c3aed,#6366f1)" : "transparent", color: active ? "#fff" : isDark ? "#cbd5e1" : "#555" }),
-  content: { maxWidth: "1300px", width: "100%", margin: "0 auto", padding: "30px 24px", flex: 1 },
-  grid:    { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: "20px" },
-  card:    (isDark) => ({ borderRadius: "16px", overflow: "hidden", background: isDark ? "#111827" : "#fff", border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.08)", boxShadow: "0 4px 16px rgba(0,0,0,0.15)" }),
-  skelCard:(isDark) => ({ borderRadius: "16px", overflow: "hidden", background: isDark ? "#111827" : "#e5e7eb" }),
-  shimmer: { position: "absolute", top: 0, left: "-100%", width: "60%", height: "100%", background: "linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent)", animation: "shimmer 1.4s infinite" },
-  empty:   (isDark) => ({ textAlign: "center", padding: "80px 20px", color: isDark ? "#fff" : "#111" }),
+  page:      (isDark) => ({ minHeight: "100vh", display: "flex", flexDirection: "column", background: isDark ? "#0d0d1a" : "#f8f9fc" }),
+  navbar:    (isDark) => ({ position: "sticky", top: 0, zIndex: 999, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 24px", height: "64px", background: isDark ? "rgba(10,10,20,0.95)" : "rgba(255,255,255,0.95)", backdropFilter: "blur(16px)", borderBottom: isDark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)", flexWrap: "wrap", gap: "8px" }),
+  navBtn:    (isDark, active) => ({ padding: "8px 14px", borderRadius: "10px", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: active ? 700 : 500, background: active ? "linear-gradient(135deg,#7c3aed,#6366f1)" : "transparent", color: active ? "#fff" : isDark ? "#cbd5e1" : "#555" }),
+  content:   { maxWidth: "1300px", width: "100%", margin: "0 auto", padding: "30px 24px", flex: 1 },
+  grid:      { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: "20px" },
+  card:      (isDark) => ({ borderRadius: "16px", overflow: "hidden", background: isDark ? "#111827" : "#fff", border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.08)", boxShadow: "0 4px 16px rgba(0,0,0,0.15)" }),
+  skelCard:  (isDark) => ({ borderRadius: "16px", overflow: "hidden", background: isDark ? "#111827" : "#e5e7eb" }),
+  shimmer:   { position: "absolute", top: 0, left: "-100%", width: "60%", height: "100%", background: "linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent)", animation: "shimmer 1.4s infinite" },
+  empty:     (isDark) => ({ textAlign: "center", padding: "80px 20px", color: isDark ? "#fff" : "#111" }),
   createBtn: { padding: "10px 20px", background: "linear-gradient(135deg,#7c3aed,#6366f1)", color: "white", border: "none", borderRadius: "12px", fontSize: "14px", fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 14px rgba(124,58,237,0.35)" },
-  viewBtn: (isDark) => ({ flex: 1, padding: "8px", background: isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.05)", color: isDark ? "#cbd5e1" : "#555", border: "none", borderRadius: "8px", cursor: "pointer", fontSize: "13px", fontWeight: 600 }),
-  editBtn: { flex: 1, padding: "8px", background: "rgba(99,102,241,0.15)", color: "#6366f1", border: "none", borderRadius: "8px", cursor: "pointer", fontSize: "13px", fontWeight: 600 },
+  viewBtn:   (isDark) => ({ flex: 1, padding: "8px", background: isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.05)", color: isDark ? "#cbd5e1" : "#555", border: "none", borderRadius: "8px", cursor: "pointer", fontSize: "13px", fontWeight: 600 }),
+  editBtn:   { flex: 1, padding: "8px", background: "rgba(99,102,241,0.15)", color: "#6366f1", border: "none", borderRadius: "8px", cursor: "pointer", fontSize: "13px", fontWeight: 600 },
   deleteBtn: { width: "36px", padding: "8px", background: "rgba(239,68,68,0.12)", color: "#ef4444", border: "none", borderRadius: "8px", cursor: "pointer", fontSize: "14px" },
-  footer:  (isDark) => ({ padding: "20px", textAlign: "center", fontSize: "13px", background: isDark ? "#08090f" : "#1e1b4b", color: isDark ? "#94a3b8" : "#a78bfa", marginTop: "auto" }),
+  footer:    (isDark) => ({ padding: "20px", textAlign: "center", fontSize: "13px", background: isDark ? "#08090f" : "#1e1b4b", color: isDark ? "#94a3b8" : "#a78bfa", marginTop: "auto" }),
 };
 
 export default MyPosts;
