@@ -22,7 +22,7 @@ function MyPosts() {
       .then(r => setPosts(r.data))
       .catch(console.log)
       .finally(() => setLoading(false));
-  }, [token]);
+  }, [token, navigate]);
 
   const handleDelete = async (id) => {
     try {
