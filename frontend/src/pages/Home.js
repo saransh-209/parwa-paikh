@@ -106,7 +106,7 @@ function Home() {
         <nav style={N.navbar(isDark)}>
           {/* Logo */}
           <div style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", flexShrink: 0 }} onClick={() => navigate("/")}>
-            <img src={PANKH} alt="" style={{ width: "28px", height: "28px", objectFit: "contain" }} />
+            <img src={PANKH} alt="" style={{ width: "36px", height: "36px", objectFit: "contain", filter: "drop-shadow(0 0 4px rgba(124,58,237,0.5))" }} />
             <div>
               <div style={{ fontSize: "18px", fontWeight: 800, color: isDark ? "#fff" : "#111" }}>परवा पाइख</div>
               <div style={{ fontSize: "11px", color: "#7c3aed" }}>मैथिली साहित्य के संग</div>
@@ -175,7 +175,7 @@ function Home() {
       {isMobile && (
         <nav style={N.mobileNav(isDark)}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }} onClick={() => navigate("/")}>
-            <img src={PANKH} alt="" style={{ width: "26px", height: "26px", objectFit: "contain" }} />
+            <img src={PANKH} alt="" style={{ width: "32px", height: "32px", objectFit: "contain", filter: "drop-shadow(0 0 4px rgba(124,58,237,0.5))" }} />
             <div>
               <div style={{ fontSize: "16px", fontWeight: 800, color: isDark ? "#fff" : "#111" }}>परवा पाइख</div>
               <div style={{ fontSize: "10px", color: "#7c3aed" }}>मैथिली साहित्य के संग</div>
@@ -259,8 +259,8 @@ function Home() {
             minHeight: isMobile ? "220px" : "340px",
             backgroundImage: `url(${heroBg})`,
             backgroundSize: "cover",
-            backgroundPosition: "center top",
-            display: "flex", alignItems: "flex-end",
+            backgroundPosition: "center center",
+            display: "flex", alignItems: "center", justifyContent: "flex-start",
             margin: isMobile ? "0" : "12px auto",
             maxWidth: isMobile ? "100%" : "calc(100% - 48px)",
             borderRadius: isMobile ? "16px" : "20px",
@@ -268,22 +268,14 @@ function Home() {
             boxShadow: isDark ? "0 8px 32px rgba(0,0,0,0.5)" : "0 8px 32px rgba(0,0,0,0.15)",
             alignSelf: "center"
           }}>
-            <div style={{ padding: isMobile ? "20px" : "40px 50px", background: isDark ? "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.15) 100%)" : "linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 100%)", width: "100%" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
+            <div style={{ padding: isMobile ? "20px 22px" : "0 50px", width: isMobile ? "100%" : "55%" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
                 <img src={PANKH} alt="" style={{ width: "16px", height: "16px", objectFit: "contain" }} />
-                <span style={{ fontSize: "12px", color: "#c4b5fd", fontWeight: 600 }}>मिथिला के शब्द, हमर पहचान</span>
+                <span style={{ fontSize: "12px", color: isDark ? "#c4b5fd" : "#5b21b6", fontWeight: 600 }}>मिथिला के शब्द, हमर पहचान</span>
               </div>
-              <h1 style={{ fontSize: isMobile ? "28px" : "50px", fontWeight: 800, color: "#fff", margin: 0, lineHeight: 1.1 }}>Discover</h1>
-              <h1 style={{ fontSize: isMobile ? "24px" : "44px", fontWeight: 800, color: "#a855f7", margin: "2px 0 8px", lineHeight: 1.1 }}>मैथिली साहित्य</h1>
-              <p style={{ fontSize: isMobile ? "13px" : "15px", color: "#e2e8f0", maxWidth: "300px", lineHeight: 1.5 }}>Explore poetry, lyrics and stories from amazing creators.</p>
-              {/* Slider dots (decorative) */}
-              {isMobile && (
-                <div style={{ display: "flex", gap: "6px", marginTop: "12px" }}>
-                  <div style={{ width: "20px", height: "6px", borderRadius: "3px", background: "#7c3aed" }} />
-                  <div style={{ width: "6px", height: "6px", borderRadius: "3px", background: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.25)" }} />
-                  <div style={{ width: "6px", height: "6px", borderRadius: "3px", background: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.25)" }} />
-                </div>
-              )}
+              <h1 style={{ fontSize: isMobile ? "28px" : "50px", fontWeight: 800, color: isDark ? "#fff" : "#111", margin: 0, lineHeight: 1.1 }}>Discover</h1>
+              <h1 style={{ fontSize: isMobile ? "24px" : "44px", fontWeight: 800, color: "#a855f7", margin: "2px 0 10px", lineHeight: 1.1 }}>मैथिली साहित्य</h1>
+              <p style={{ fontSize: isMobile ? "13px" : "15px", color: isDark ? "#e2e8f0" : "#1e1b4b", maxWidth: "320px", lineHeight: 1.6, fontWeight: 500 }}>Explore poetry, lyrics and stories from amazing creators.</p>
             </div>
           </div>
 
