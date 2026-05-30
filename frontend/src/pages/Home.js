@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "../index.css";
-import mobileBg from "../assets/mobile-bg.png";
 
 function Home() {
 
