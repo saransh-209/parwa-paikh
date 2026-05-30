@@ -220,7 +220,7 @@ function Home() {
       {/* ══ NOT LOGGED IN ══ */}
       {!token && (
         <>
-          <div style={{ flex: 1, minHeight: "calc(100vh - 64px)", backgroundImage: `url(${isMobile ? MOBILE_BEFORE : DESKTOP_BEFORE})`, backgroundSize: isMobile ? "contain" : "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center top", backgroundColor: "#111436", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ flex: 1, minHeight: "calc(100vh - 64px)", backgroundImage: `url(${isMobile ? MOBILE_BEFORE : DESKTOP_BEFORE})`, backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <div style={{ width: "100%", minHeight: "calc(100vh - 64px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 20px" }}>
               <div className="glass-box" style={{ padding: isMobile ? "28px 22px" : "40px 50px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", width: isMobile ? "270px" : "580px" }}>
                 <h1 style={{ fontSize: isMobile ? "38px" : "60px", fontWeight: 800, lineHeight: 1.1, color: isDark ? "#171f68" : "#0986e5", marginBottom: "8px" }}>
@@ -268,14 +268,14 @@ function Home() {
             boxShadow: isDark ? "0 8px 32px rgba(0,0,0,0.5)" : "0 8px 32px rgba(0,0,0,0.15)",
             alignSelf: "center"
           }}>
-            <div style={{ padding: isMobile ? "20px" : "40px 50px", background: isDark ? "linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%)" : "linear-gradient(to top, rgba(255,255,255,0.5) 0%, transparent 100%)", width: "100%" }}>
+            <div style={{ padding: isMobile ? "20px" : "40px 50px", background: isDark ? "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.15) 100%)" : "linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 100%)", width: "100%" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
                 <img src={PANKH} alt="" style={{ width: "16px", height: "16px", objectFit: "contain" }} />
-                <span style={{ fontSize: "12px", color: isDark ? "#a78bfa" : "#7c3aed", fontWeight: 600 }}>मिथिला के शब्द, हमर पहचान</span>
+                <span style={{ fontSize: "12px", color: "#c4b5fd", fontWeight: 600 }}>मिथिला के शब्द, हमर पहचान</span>
               </div>
-              <h1 style={{ fontSize: isMobile ? "28px" : "50px", fontWeight: 800, color: isDark ? "#fff" : "#111", margin: 0, lineHeight: 1.1 }}>Discover</h1>
+              <h1 style={{ fontSize: isMobile ? "28px" : "50px", fontWeight: 800, color: "#fff", margin: 0, lineHeight: 1.1 }}>Discover</h1>
               <h1 style={{ fontSize: isMobile ? "24px" : "44px", fontWeight: 800, color: "#a855f7", margin: "2px 0 8px", lineHeight: 1.1 }}>मैथिली साहित्य</h1>
-              <p style={{ fontSize: isMobile ? "13px" : "15px", color: isDark ? "#e2e8f0" : "#333", maxWidth: "300px", lineHeight: 1.5 }}>Explore poetry, lyrics and stories from amazing creators.</p>
+              <p style={{ fontSize: isMobile ? "13px" : "15px", color: "#e2e8f0", maxWidth: "300px", lineHeight: 1.5 }}>Explore poetry, lyrics and stories from amazing creators.</p>
               {/* Slider dots (decorative) */}
               {isMobile && (
                 <div style={{ display: "flex", gap: "6px", marginTop: "12px" }}>
@@ -378,7 +378,7 @@ function Home() {
                     style={{ display: "flex", alignItems: "center", borderRadius: "16px", overflow: "hidden", background: isDark ? "#111827" : "#fff", border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.08)", boxShadow: isDark ? "0 2px 12px rgba(0,0,0,0.3)" : "0 2px 12px rgba(0,0,0,0.06)", cursor: "pointer" }}
                     onClick={() => navigate(`/post/${post._id}`)}>
                     {/* Image */}
-                    <div style={{ width: "140px", height: "105px", flexShrink: 0, overflow: "hidden", background: "#1f2937", borderRadius: "14px", margin: "8px", overflow: "hidden" }}>
+                    <div style={{ width: "140px", height: "105px", flexShrink: 0, overflow: "hidden", background: "#1f2937", borderRadius: "14px", margin: "8px" }}>
                       {post.image
                         ? <img src={post.image} alt="cover" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "10px" }} />
                         : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "#6b7280", fontSize: "12px" }}>No Cover</div>
@@ -386,7 +386,7 @@ function Home() {
                     </div>
                     {/* Content */}
                     <div style={{ padding: "10px 10px 10px 4px", flex: 1 }}>
-                      <h3 style={{ fontSize: "16px", fontWeight: 700, color: isDark ? "#fff" : "#111", marginBottom: "5px", lineHeight: 1.3 }}>{post.title}</h3>
+                      <h3 style={{ fontSize: "16px", fontWeight: 700, color: isDark ? "#fff" : "#0f172a", marginBottom: "5px", lineHeight: 1.3, fontWeight: 800 }}>{post.title}</h3>
                       <div style={{ display: "flex", alignItems: "center", gap: "5px", marginBottom: "4px" }}>
                         <img src={PANKH} alt="" style={{ width: "12px", height: "12px", objectFit: "contain" }} />
                         <p style={{ fontSize: "12px", color: "#7c3aed", fontWeight: 600 }}>{post.author}</p>
