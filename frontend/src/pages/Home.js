@@ -386,7 +386,7 @@ function Home() {
                     </div>
                     {/* Content */}
                     <div style={{ padding: "10px 10px 10px 4px", flex: 1 }}>
-                      <h3 style={{ fontSize: "16px", fontWeight: 700, color: isDark ? "#fff" : "#0f172a", marginBottom: "5px", lineHeight: 1.3, fontWeight: 800 }}>{post.title}</h3>
+                      <h3 style={{ fontSize: "16px", fontWeight: 800, color: isDark ? "#fff" : "#0f172a", marginBottom: "5px", lineHeight: 1.3 }}>{post.title}</h3>
                       <div style={{ display: "flex", alignItems: "center", gap: "5px", marginBottom: "4px" }}>
                         <img src={PANKH} alt="" style={{ width: "12px", height: "12px", objectFit: "contain" }} />
                         <p style={{ fontSize: "12px", color: "#7c3aed", fontWeight: 600 }}>{post.author}</p>
