@@ -3,31 +3,26 @@ import { useState, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
-import Create from "./pages/Create";
-import Home from "./pages/Home";
+import Signup     from "./pages/Signup";
+import Login      from "./pages/Login";
+import Create     from "./pages/Create";
+import Home       from "./pages/Home";
 import PostDetails from "./pages/PostDetails";
-import EditPost from "./pages/EditPost";
+import EditPost   from "./pages/EditPost";
+import Explore    from "./pages/Explore";
+import MyPosts    from "./pages/MyPosts";
+import Bookmarks  from "./pages/Bookmarks";
 
 import "./index.css";
 
-// 🔐 Protected Route
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("token");
-
-  if (!token) {
-    return <Navigate to="/login" />;
-  }
-
+  if (!token) return <Navigate to="/login" />;
   return children;
 };
 
 function App() {
-
-  // 🌙 THEME STATE (GLOBAL)
-  const [theme] = useState("dark");
+  const [theme] = useState(() => localStorage.getItem("theme") || "dark");
 
   useEffect(() => {
     document.body.className = theme;
@@ -35,44 +30,26 @@ function App() {
 
   return (
     <BrowserRouter>
-
       <Routes>
-
-        {/* 🏠 MAIN APP */}
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Navigate to="/" />} />
-
-        {/* 📄 POSTS */}
+        {/* Public */}
+        <Route path="/"        element={<Home />} />
+        <Route path="/home"    element={<Navigate to="/" />} />
+        <Route path="/signup"  element={<Signup />} />
+        <Route path="/login"   element={<Login />} />
         <Route path="/post/:id" element={<PostDetails />} />
+        <Route path="/explore" element={<Explore />} />
 
-        <Route
-          path="/edit/:id"
-          element={
-            <ProtectedRoute>
-              <EditPost />
-            </ProtectedRoute>
-          }
-        />
+        {/* Protected */}
+        <Route path="/create"    element={<ProtectedRoute><Create /></ProtectedRoute>} />
+        <Route path="/edit/:id"  element={<ProtectedRoute><EditPost /></ProtectedRoute>} />
+        <Route path="/my-posts"  element={<ProtectedRoute><MyPosts /></ProtectedRoute>} />
+        <Route path="/bookmarks" element={<ProtectedRoute><Bookmarks /></ProtectedRoute>} />
 
-        {/* 🔐 AUTH */}
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-
-        {/* 🔒 PROTECTED */}
-        <Route
-          path="/create"
-          element={
-            <ProtectedRoute>
-              <Create />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* ❌ DASHBOARD REMOVED */}
+        {/* Redirects */}
         <Route path="/dashboard" element={<Navigate to="/" />} />
-
+        <Route path="*"          element={<Navigate to="/" />} />
       </Routes>
-       {/* 🔔 TOAST CONTAINER */}
+
       <ToastContainer
         position="bottom-right"
         autoClose={3000}
@@ -81,7 +58,7 @@ function App() {
         closeOnClick
         pauseOnHover
         draggable
-        theme={theme} // Dark/Light theme support
+        theme={theme}
       />
     </BrowserRouter>
   );
