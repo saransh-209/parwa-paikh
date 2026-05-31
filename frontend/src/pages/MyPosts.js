@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { NavBar } from "./NavBar";
 
-const PANKH = "https://res.cloudinary.com/djhio7kqd/image/upload/v1780131089/pankh_ut6atj.png";
+
 
 function MyPosts() {
   const navigate = useNavigate();
