@@ -38,13 +38,30 @@ mongoose.connect(process.env.MONGO_URI)
   .catch(err => console.log(err));
 
 /* ── FIREBASE ADMIN ── */
-admin.initializeApp({
-  credential: admin.credential.cert({
-    projectId:   process.env.FIREBASE_PROJECT_ID,
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey:  process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n")
-  })
-});
+try {
+  const serviceAccount = require("./serviceAccount.json");
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  });
+  console.log("Firebase Admin initialized ✅");
+} catch (e) {
+  console.log("serviceAccount.json not found, trying env vars...");
+  const privateKey = process.env.FIREBASE_PRIVATE_KEY
+    ? process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n")
+    : undefined;
+  if (privateKey && process.env.FIREBASE_PROJECT_ID && process.env.FIREBASE_CLIENT_EMAIL) {
+    admin.initializeApp({
+      credential: admin.credential.cert({
+        projectId:   process.env.FIREBASE_PROJECT_ID,
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        privateKey:  privateKey
+      })
+    });
+    console.log("Firebase Admin initialized via env ✅");
+  } else {
+    console.log("Firebase Admin not initialized ❌");
+  }
+}
 
 /* ══════════════════════════════════
    HOME
