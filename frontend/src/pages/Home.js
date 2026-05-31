@@ -268,14 +268,14 @@ function Home() {
             boxShadow: isDark ? "0 8px 32px rgba(0,0,0,0.5)" : "0 8px 32px rgba(0,0,0,0.15)",
             alignSelf: "center"
           }}>
-            <div style={{ padding: isMobile ? "20px 22px" : "0 50px", width: isMobile ? "100%" : "55%" }}>
+            <div style={{ padding: isMobile ? "20px 22px" : "0 50px", width: isMobile ? "100%" : "55%", background: isMobile ? (isDark ? "linear-gradient(to right, rgba(0,0,0,0.72) 60%, transparent 100%)" : "linear-gradient(to right, rgba(255,255,255,0.75) 60%, transparent 100%)") : "none" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
                 <img src={PANKH} alt="" style={{ width: "16px", height: "16px", objectFit: "contain" }} />
-                <span style={{ fontSize: "12px", color: isDark ? "#c4b5fd" : "#5b21b6", fontWeight: 600 }}>मिथिला के शब्द, हमर पहचान</span>
+                <span style={{ fontSize: "12px", color: isMobile ? "#c4b5fd" : (isDark ? "#c4b5fd" : "#5b21b6"), fontWeight: 600 }}>मिथिला के शब्द, हमर पहचान</span>
               </div>
-              <h1 style={{ fontSize: isMobile ? "28px" : "50px", fontWeight: 800, color: isDark ? "#fff" : "#111", margin: 0, lineHeight: 1.1 }}>Discover</h1>
-              <h1 style={{ fontSize: isMobile ? "24px" : "44px", fontWeight: 800, color: "#a855f7", margin: "2px 0 10px", lineHeight: 1.1 }}>मैथिली साहित्य</h1>
-              <p style={{ fontSize: isMobile ? "13px" : "15px", color: isDark ? "#e2e8f0" : "#1e1b4b", maxWidth: "320px", lineHeight: 1.6, fontWeight: 500 }}>Explore poetry, lyrics and stories from amazing creators.</p>
+              <h1 style={{ fontSize: isMobile ? "26px" : "50px", fontWeight: 800, color: isMobile ? "#fff" : (isDark ? "#fff" : "#111"), margin: 0, lineHeight: 1.1 }}>Discover</h1>
+              <h1 style={{ fontSize: isMobile ? "22px" : "44px", fontWeight: 800, color: "#a855f7", margin: "2px 0 10px", lineHeight: 1.1 }}>मैथिली साहित्य</h1>
+              <p style={{ fontSize: isMobile ? "12px" : "15px", color: isMobile ? "#e2e8f0" : (isDark ? "#e2e8f0" : "#1e1b4b"), maxWidth: "280px", lineHeight: 1.5, fontWeight: 500 }}>Explore poetry, lyrics and stories from amazing creators.</p>
             </div>
           </div>
 
@@ -471,9 +471,9 @@ function Home() {
             { icon: "🔖", label: "Bookmarks", path: "/bookmarks" },
             { icon: "👤", label: "Profile",   path: "/my-posts" },
           ].map(l => {
-            const active = currentPath === l.path;
+            const active = l.path === '/profile' ? currentPath === '/my-posts' : currentPath === l.path;
             return (
-              <button key={l.label} onClick={() => navigate(l.path)}
+              <button key={l.label} onClick={() => navigate(l.label === "Profile" ? "/my-posts" : l.path)}
                 style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "3px", background: "none", border: "none", cursor: "pointer", padding: "6px 10px", position: "relative" }}>
                 <span style={{ fontSize: "20px" }}>{l.icon}</span>
                 <span style={{ fontSize: "10px", fontWeight: active ? 700 : 500, color: active ? "#7c3aed" : isDark ? "#94a3b8" : "#888" }}>{l.label}</span>
@@ -494,7 +494,12 @@ function Home() {
             </div>
             <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", justifyContent: "center" }}>
               {["Home", "Explore", "My Posts", "Bookmarks"].map(l => (
-                <span key={l} style={{ fontSize: "13px", cursor: "pointer" }} onClick={() => navigate(l === "Home" ? "/" : `/${l.toLowerCase().replace(" ", "-")}`)}>{l}</span>
+                <span key={l} style={{ fontSize: "13px", cursor: "pointer" }}
+                  onClick={() => {
+                    const path = l === "Home" ? "/" : `/${l.toLowerCase().replace(" ", "-")}`;
+                    if (!token && path !== "/") { navigate("/login"); return; }
+                    navigate(path);
+                  }}>{l}</span>
               ))}
             </div>
             <p style={{ fontSize: "12px" }}>© 2026 Saransh | All Rights Reserved</p>
