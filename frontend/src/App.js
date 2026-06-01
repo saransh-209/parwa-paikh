@@ -12,6 +12,7 @@ import EditPost   from "./pages/EditPost";
 import Explore    from "./pages/Explore";
 import MyPosts    from "./pages/MyPosts";
 import Bookmarks  from "./pages/Bookmarks";
+import Profile    from "./pages/Profile";
 
 import "./index.css";
 
@@ -44,6 +45,7 @@ function App() {
         <Route path="/edit/:id"  element={<ProtectedRoute><EditPost /></ProtectedRoute>} />
         <Route path="/my-posts"  element={<ProtectedRoute><MyPosts /></ProtectedRoute>} />
         <Route path="/bookmarks" element={<ProtectedRoute><Bookmarks /></ProtectedRoute>} />
+        <Route path="/profile"   element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 
         {/* Redirects */}
         <Route path="/dashboard" element={<Navigate to="/" />} />

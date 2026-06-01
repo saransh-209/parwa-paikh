@@ -38,7 +38,7 @@ export function NavBar({ activePath }) {
   const BOTTOM_LINKS = [
     { icon: "🏠", label: "Home",      path: "/" },
     { icon: "🧭", label: "Explore",   path: "/explore" },
-    { icon: "📝", label: "My Posts",  path: "/my-posts" },
+    ...(role === "author" ? [{ icon: "📝", label: "My Posts", path: "/my-posts" }] : []),
     { icon: "🔖", label: "Bookmarks", path: "/bookmarks" },
     { icon: "👤", label: "Profile",   path: "/profile" },
   ];
@@ -58,7 +58,7 @@ export function NavBar({ activePath }) {
 
           {token && (
             <div style={{ display: "flex", gap: "4px" }}>
-              {NAV_LINKS.map(l => (
+              {NAV_LINKS.filter(l => !(l.path === "/my-posts" && role !== "author")).map(l => (
                 <button key={l.path} onClick={() => navigate(l.path)}
                   style={{ padding: "8px 16px", background: "transparent", border: "none", cursor: "pointer", fontSize: "14px", fontWeight: activePath === l.path ? 700 : 500, color: activePath === l.path ? "#7c3aed" : isDark ? "#cbd5e1" : "#555", borderRadius: "8px", position: "relative" }}>
                   {l.label}
@@ -150,7 +150,7 @@ export function NavBar({ activePath }) {
           {BOTTOM_LINKS.map(l => {
             const active = l.path === '/profile' ? activePath === '/my-posts' : activePath === l.path;
             return (
-              <button key={l.label} onClick={() => navigate(l.label === "Profile" ? "/my-posts" : l.path)}
+              <button key={l.label} onClick={() => navigate(l.label === "Profile" ? "/profile" : l.path)}
                 style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "3px", background: "none", border: "none", cursor: "pointer", padding: "6px 10px", position: "relative", flex: 1 }}>
                 <span style={{ fontSize: "20px" }}>{l.icon}</span>
                 <span style={{ fontSize: "10px", fontWeight: active ? 700 : 500, color: active ? "#7c3aed" : isDark ? "#94a3b8" : "#888" }}>{l.label}</span>
