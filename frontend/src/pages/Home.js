@@ -268,14 +268,14 @@ function Home() {
             boxShadow: isDark ? "0 8px 32px rgba(0,0,0,0.5)" : "0 8px 32px rgba(0,0,0,0.15)",
             alignSelf: "center"
           }}>
-            <div style={{ padding: isMobile ? "20px 22px" : "0 50px", width: isMobile ? "100%" : "55%", background: isMobile ? "linear-gradient(to right, rgba(0,0,0,0.65) 65%, transparent 100%)" : "none" }}>
+            <div style={{ padding: isMobile ? "20px 22px" : "0 50px", width: isMobile ? "100%" : "55%" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
                 <img src={PANKH} alt="" style={{ width: "16px", height: "16px", objectFit: "contain" }} />
-                <span style={{ fontSize: "12px", color: "#c4b5fd", fontWeight: 600, textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}>मिथिला के शब्द, हमर पहचान</span>
+                <span style={{ fontSize: "12px", color: "#f0abfc", fontWeight: 700, textShadow: "0 1px 8px rgba(0,0,0,0.9)" }}>मिथिला के शब्द, हमर पहचान</span>
               </div>
-              <h1 style={{ fontSize: isMobile ? "26px" : "50px", fontWeight: 800, color: "#fff", margin: 0, lineHeight: 1.1, textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>Discover</h1>
-              <h1 style={{ fontSize: isMobile ? "22px" : "44px", fontWeight: 800, color: "#c084fc", margin: "2px 0 10px", lineHeight: 1.1, textShadow: "0 2px 8px rgba(0,0,0,0.4)" }}>मैथिली साहित्य</h1>
-              <p style={{ fontSize: isMobile ? "12px" : "15px", color: "#f1f5f9", maxWidth: "280px", lineHeight: 1.5, fontWeight: 500, textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}>Explore poetry, lyrics and stories from amazing creators.</p>
+              <h1 style={{ fontSize: isMobile ? "26px" : "50px", fontWeight: 800, color: "#fff", margin: 0, lineHeight: 1.1, textShadow: "0 2px 12px rgba(0,0,0,0.8), 0 0 30px rgba(0,0,0,0.6)" }}>Discover</h1>
+              <h1 style={{ fontSize: isMobile ? "22px" : "44px", fontWeight: 800, color: "#e879f9", margin: "2px 0 10px", lineHeight: 1.1, textShadow: "0 2px 12px rgba(0,0,0,0.8), 0 0 30px rgba(0,0,0,0.6)" }}>मैथिली साहित्य</h1>
+              <p style={{ fontSize: isMobile ? "12px" : "15px", color: "#fff", maxWidth: "280px", lineHeight: 1.5, fontWeight: 600, textShadow: "0 1px 8px rgba(0,0,0,0.9)" }}>Explore poetry, lyrics and stories from amazing creators.</p>
             </div>
           </div>
 
@@ -387,9 +387,10 @@ function Home() {
                       <p style={{ fontSize: "11px", color: isDark ? "#94a3b8" : "#888" }}>🕐 {readTime(post.content)}</p>
                     </div>
                     {/* Bookmark */}
-                    <button style={{ padding: "8px", marginRight: "10px", background: "none", border: "none", cursor: "pointer", fontSize: "18px", color: isBookmarked(post._id) ? "#7c3aed" : isDark ? "#4b5563" : "#d1d5db", flexShrink: 0 }}
+                    <button
+                      style={{ padding: "6px 8px", marginRight: "8px", background: isBookmarked(post._id) ? "rgba(168,85,247,0.15)" : "transparent", border: isBookmarked(post._id) ? "1px solid rgba(168,85,247,0.4)" : "1px solid transparent", borderRadius: "8px", cursor: "pointer", fontSize: "18px", flexShrink: 0, transition: "all 0.2s" }}
                       onClick={(e) => toggleBookmark(e, post)}>
-                      {isBookmarked(post._id) ? "🔖" : "🔖"}
+                      {isBookmarked(post._id) ? "🔖" : "🏷️"}
                     </button>
                   </div>
                 ))}
@@ -413,9 +414,9 @@ function Home() {
                       }
                       {/* Bookmark icon top-right */}
                       <button
-                        style={{ position: "absolute", top: "10px", right: "10px", width: "32px", height: "32px", borderRadius: "8px", background: "rgba(0,0,0,0.45)", backdropFilter: "blur(6px)", border: "none", color: isBookmarked(post._id) ? "#a855f7" : "#fff", cursor: "pointer", fontSize: "15px", display: "flex", alignItems: "center", justifyContent: "center" }}
+                        style={{ position: "absolute", top: "10px", right: "10px", width: "32px", height: "32px", borderRadius: "8px", background: isBookmarked(post._id) ? "rgba(168,85,247,0.85)" : "rgba(0,0,0,0.45)", backdropFilter: "blur(6px)", border: "none", color: "#fff", cursor: "pointer", fontSize: "15px", display: "flex", alignItems: "center", justifyContent: "center", transition: "all 0.2s" }}
                         onClick={(e) => toggleBookmark(e, post)}>
-                        🔖
+                        {isBookmarked(post._id) ? "🔖" : "🏷️"}
                       </button>
                     </div>
                     {/* Card body */}
@@ -469,7 +470,7 @@ function Home() {
             { icon: "🧭", label: "Explore",   path: "/explore" },
             { icon: "📝", label: "My Posts",  path: "/my-posts" },
             { icon: "🔖", label: "Bookmarks", path: "/bookmarks" },
-            { icon: "👤", label: "Profile",   path: "/my-posts" },
+            { icon: "👤", label: "Profile",   path: "/profile" },
           ].map(l => {
             const active = l.path === '/profile' ? currentPath === '/my-posts' : currentPath === l.path;
             return (
