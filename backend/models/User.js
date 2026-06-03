@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true // 🔥 duplicate email block
+    unique: true
   },
   password: {
     type: String,
@@ -18,9 +18,17 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ["user", "author"],
     default: "user"
+  },
+  avatar: {
+    type: String,
+    default: ""
+  },
+  googleId: {
+    type: String,
+    default: ""
   }
 }, {
-  timestamps: true // 🔥 createdAt, updatedAt auto
+  timestamps: true
 });
 
 module.exports = mongoose.model("User", userSchema);

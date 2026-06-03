@@ -6,12 +6,12 @@ const PANKH = "https://res.cloudinary.com/djhio7kqd/image/upload/v1780131089/pan
 
 function Bookmarks() {
   const navigate = useNavigate();
-  const theme  = localStorage.getItem("theme") || "dark";
+  const theme = localStorage.getItem("theme") || "dark";
   const isDark = theme === "dark";
-  const token  = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   const [bookmarks, setBookmarks] = useState([]);
-  const [isMobile, setIsMobile]   = useState(window.innerWidth <= 768);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth <= 768);
@@ -33,7 +33,7 @@ function Bookmarks() {
     localStorage.setItem("bookmarks", JSON.stringify(updated));
   };
 
-  const fmtDate    = (d) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+  const fmtDate = (d) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
   const badgeColor = { Poetry: "#7c3aed", Lyrics: "#0891b2", Story: "#065f46", Thoughts: "#92400e" };
 
   return (
@@ -80,8 +80,18 @@ function Bookmarks() {
         )}
       </div>
 
-      <footer style={{ padding: "20px", textAlign: "center", fontSize: "13px", background: isDark ? "#08090f" : "#1e1b4b", color: isDark ? "#94a3b8" : "#a78bfa", marginTop: "auto" }}>
+      <footer style={{ padding: "12px 20px", textAlign: "center", fontSize: "12px", background: isDark ? "#08090f" : "#1e1b4b", color: isDark ? "#94a3b8" : "#a78bfa", marginTop: "auto" }}>
         <p>© 2026 Saransh | All Rights Reserved</p>
+        <div style={{ marginTop: "6px", display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
+          <span style={{ cursor: "pointer", textDecoration: "underline" }}
+            onClick={() => alert("Terms of Service\n\n1. Content Responsibility: All published content is the sole responsibility of the creator. Hate speech, copyright violations and inappropriate content are strictly prohibited.\n\n2. Account Usage: Your account is personal and non-transferable. You are responsible for maintaining confidentiality of your credentials.\n\n3. Intellectual Property: Original content you publish remains yours. By posting, you grant Parwa Paikh a non-exclusive license to display your content.\n\n4. Prohibited Content: Spam, adult content, misinformation and impersonation are strictly prohibited.\n\n5. Termination: We reserve the right to suspend accounts that violate these terms.")}>
+            Terms of Service
+          </span>
+          <span style={{ cursor: "pointer", textDecoration: "underline" }}
+            onClick={() => alert("Privacy Policy\n\n1. Data Collection: We collect your name, email address and content you publish.\n\n2. Data Usage: Your data is used solely to operate and improve the platform. We do not sell or share your personal information with third parties.\n\n3. Authentication: Passwords are encrypted and never stored in plain text. Google login is handled securely via Firebase Authentication.\n\n4. Cookies: We use local storage to maintain your session and preferences.\n\n5. Data Security: We implement industry-standard security measures to protect your data.\n\n6. Contact: For privacy concerns, please reach out through the platform.")}>
+            Privacy Policy
+          </span>
+        </div>
       </footer>
     </div>
   );

@@ -3,33 +3,33 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "../index.css";
 
-const DESKTOP_DAY   = "https://res.cloudinary.com/djhio7kqd/image/upload/v1780128326/day_desktop_kkjzw8.png";
+const DESKTOP_DAY = "https://res.cloudinary.com/djhio7kqd/image/upload/v1780128326/day_desktop_kkjzw8.png";
 const DESKTOP_NIGHT = "https://res.cloudinary.com/djhio7kqd/image/upload/v1780128326/night_desktop_ikqlfe.png";
-const MOBILE_DAY    = "https://res.cloudinary.com/djhio7kqd/image/upload/v1780128327/day_mobile_fn2mjd.png";
-const MOBILE_NIGHT  = "https://res.cloudinary.com/djhio7kqd/image/upload/v1780128326/night_mobile_nqzwy9.png";
+const MOBILE_DAY = "https://res.cloudinary.com/djhio7kqd/image/upload/v1780128327/day_mobile_fn2mjd.png";
+const MOBILE_NIGHT = "https://res.cloudinary.com/djhio7kqd/image/upload/v1780128326/night_mobile_nqzwy9.png";
 const DESKTOP_BEFORE = "https://res.cloudinary.com/djhio7kqd/image/upload/v1777919102/ChatGPT_Image_May_4_2026_11_47_57_PM_rsfpn5.png";
-const MOBILE_BEFORE  = "https://res.cloudinary.com/djhio7kqd/image/upload/v1780124555/mobilebg_h9u3xq.png";
-const PANKH          = "https://res.cloudinary.com/djhio7kqd/image/upload/v1780131089/pankh_ut6atj.png";
+const MOBILE_BEFORE = "https://res.cloudinary.com/djhio7kqd/image/upload/v1780124555/mobilebg_h9u3xq.png";
+const PANKH = "https://res.cloudinary.com/djhio7kqd/image/upload/v1780131089/pankh_ut6atj.png";
 
 const CATEGORIES = ["All", "Poetry", "Lyrics", "Story", "Thoughts"];
 
 function Home() {
-  const navigate   = useNavigate();
-  const token      = localStorage.getItem("token");
-  const name       = localStorage.getItem("name");
-  const role       = localStorage.getItem("role");
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const name = localStorage.getItem("name");
+  const role = localStorage.getItem("role");
   const userDropRef = useRef(null);
 
-  const [theme, setTheme]           = useState(() => localStorage.getItem("theme") || "dark");
-  const [posts, setPosts]           = useState([]);
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "dark");
+  const [posts, setPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading]       = useState(true);
+  const [loading, setLoading] = useState(true);
   const [visiblePosts, setVisiblePosts] = useState(12);
   const [showLogout, setShowLogout] = useState(false);
-  const [isMobile, setIsMobile]     = useState(window.innerWidth <= 768);
-  const [activeTab, setActiveTab]   = useState("All");
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [activeTab, setActiveTab] = useState("All");
   const [userDropOpen, setUserDropOpen] = useState(false);
-  const [bookmarks, setBookmarks]   = useState(() => {
+  const [bookmarks, setBookmarks] = useState(() => {
     try { return JSON.parse(localStorage.getItem("bookmarks")) || []; } catch { return []; }
   });
 
@@ -68,11 +68,11 @@ function Home() {
 
   const filteredPosts = posts.filter(p => {
     const matchSearch = p.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchCat    = activeTab === "All" || p.category === activeTab;
+    const matchCat = activeTab === "All" || p.category === activeTab;
     return matchSearch && matchCat;
   });
 
-  const fmtDate  = (d) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+  const fmtDate = (d) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
   const readTime = (c) => Math.max(1, Math.ceil((c?.split(" ").length || 100) / 200)) + " min read";
 
   const isBookmarked = (id) => bookmarks.some(b => b._id === id);
@@ -117,8 +117,8 @@ function Home() {
           {token && (
             <div style={{ display: "flex", gap: "4px" }}>
               {[
-                { label: "Home",      path: "/" },
-                { label: "Explore",   path: "/explore" },
+                { label: "Home", path: "/" },
+                { label: "Explore", path: "/explore" },
                 ...(role === "author" ? [{ label: "My Posts", path: "/my-posts" }] : []),
                 { label: "Bookmarks", path: "/bookmarks" },
               ].map(l => (
@@ -236,8 +236,8 @@ function Home() {
             <h2 style={{ textAlign: "center", fontSize: "28px", marginBottom: "50px", color: "white" }}>Why Use This Platform?</h2>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: "24px", maxWidth: "1100px", margin: "0 auto" }}>
               {[{ icon: "✍️", title: "Create Content", text: "Empower creators to write, edit, and publish original posts seamlessly." },
-                { icon: "📖", title: "Read & Explore", text: "Explore a diverse collection of poetry, stories, and articles by talented authors." },
-                { icon: "⚡", title: "Fast & Simple", text: "Experience a fast, responsive, and modern interface designed for user comfort." }
+              { icon: "📖", title: "Read & Explore", text: "Explore a diverse collection of poetry, stories, and articles by talented authors." },
+              { icon: "⚡", title: "Fast & Simple", text: "Experience a fast, responsive, and modern interface designed for user comfort." }
               ].map((c, i) => (
                 <div key={i} style={{ background: "linear-gradient(135deg,#1e1b4b,#312e81)", padding: "32px", borderRadius: "20px", color: "#a0e1ea" }}>
                   <div style={{ fontSize: "28px" }}>{c.icon}</div>
@@ -273,7 +273,7 @@ function Home() {
                 <img src={PANKH} alt="" style={{ width: "16px", height: "16px", objectFit: "contain" }} />
                 <span style={{ fontSize: "12px", color: "#f0abfc", fontWeight: 700, textShadow: "0 1px 8px rgba(0,0,0,0.9)" }}>मिथिला के शब्द, हमर पहचान</span>
               </div>
-              <h1 style={{ fontSize: isMobile ? "26px" : "50px", fontWeight: 800, color: "#fff", margin: 0, lineHeight: 1.1, textShadow: "0 2px 12px rgba(0,0,0,0.8), 0 0 30px rgba(0,0,0,0.6)" }}>Discover</h1>
+              <h1 style={{ fontSize: isMobile ? "26px" : "50px", fontWeight: 800, color: "#fff", margin: 0, lineHeight: 1.1, textShadow: "0 3px 12px rgba(0,0,0,0.9), 0 1px 4px rgba(0,0,0,0.9)" }}>Discover</h1>
               <h1 style={{ fontSize: isMobile ? "22px" : "44px", fontWeight: 800, color: "#e879f9", margin: "2px 0 10px", lineHeight: 1.1, textShadow: "0 2px 12px rgba(0,0,0,0.8), 0 0 30px rgba(0,0,0,0.6)" }}>मैथिली साहित्य</h1>
               <p style={{ fontSize: isMobile ? "12px" : "15px", color: "#fff", maxWidth: "280px", lineHeight: 1.5, fontWeight: 600, textShadow: "0 1px 8px rgba(0,0,0,0.9)" }}>Explore poetry, lyrics and stories from amazing creators.</p>
             </div>
@@ -408,8 +408,8 @@ function Home() {
                     <div style={{ height: "190px", overflow: "hidden", background: "#111827", position: "relative" }}>
                       {post.image
                         ? <img src={post.image} alt="cover" style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.4s" }}
-                            onMouseEnter={e => e.target.style.transform = "scale(1.06)"}
-                            onMouseLeave={e => e.target.style.transform = "scale(1)"} />
+                          onMouseEnter={e => e.target.style.transform = "scale(1.06)"}
+                          onMouseLeave={e => e.target.style.transform = "scale(1)"} />
                         : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "#6b7280" }}>No Cover</div>
                       }
                       {/* Bookmark icon top-right */}
@@ -466,11 +466,11 @@ function Home() {
       {isMobile && token && (
         <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, height: "65px", background: isDark ? "rgba(10,10,20,0.97)" : "rgba(255,255,255,0.97)", backdropFilter: "blur(16px)", borderTop: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)", display: "flex", justifyContent: "space-around", alignItems: "center", zIndex: 998, paddingBottom: "4px" }}>
           {[
-            { icon: "🏠", label: "Home",      path: "/" },
-            { icon: "🧭", label: "Explore",   path: "/explore" },
-            { icon: "📝", label: "My Posts",  path: "/my-posts" },
+            { icon: "🏠", label: "Home", path: "/" },
+            { icon: "🧭", label: "Explore", path: "/explore" },
+            { icon: "📝", label: "My Posts", path: "/my-posts" },
             { icon: "🔖", label: "Bookmarks", path: "/bookmarks" },
-            { icon: "👤", label: "Profile",   path: "/profile" },
+            { icon: "👤", label: "Profile", path: "/profile" },
           ].map(l => {
             const active = l.path === '/profile' ? currentPath === '/my-posts' : currentPath === l.path;
             return (
@@ -517,18 +517,18 @@ const shimmer = { position: "absolute", top: 0, left: "-100%", width: "60%", hei
 
 /* Navbar styles */
 const N = {
-  navbar:       (isDark) => ({ position: "sticky", top: 0, zIndex: 999, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 24px", height: "64px", background: isDark ? "rgba(10,10,20,0.95)" : "rgba(255,255,255,0.95)", backdropFilter: "blur(16px)", borderBottom: isDark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)", boxShadow: isDark ? "0 4px 20px rgba(0,0,0,0.3)" : "0 4px 20px rgba(0,0,0,0.06)" }),
-  mobileNav:    (isDark) => ({ position: "sticky", top: 0, zIndex: 999, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 16px", height: "60px", background: isDark ? "rgba(10,10,20,0.97)" : "rgba(255,255,255,0.97)", backdropFilter: "blur(16px)", borderBottom: isDark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)" }),
-  iconBtn:      (isDark) => ({ width: "40px", height: "40px", borderRadius: "10px", border: isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.1)", background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)", color: isDark ? "#fff" : "#111", fontSize: "17px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }),
-  mobileIconBtn:(isDark) => ({ width: "38px", height: "38px", borderRadius: "10px", border: isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.1)", background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)", color: isDark ? "#fff" : "#111", fontSize: "16px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }),
-  mobilePlusBtn:{ width: "38px", height: "38px", borderRadius: "10px", background: "linear-gradient(135deg,#7c3aed,#6366f1)", color: "#fff", border: "none", fontSize: "22px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 12px rgba(124,58,237,0.4)" },
+  navbar: (isDark) => ({ position: "sticky", top: 0, zIndex: 999, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 24px", height: "64px", background: isDark ? "rgba(10,10,20,0.95)" : "rgba(255,255,255,0.95)", backdropFilter: "blur(16px)", borderBottom: isDark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)", boxShadow: isDark ? "0 4px 20px rgba(0,0,0,0.3)" : "0 4px 20px rgba(0,0,0,0.06)" }),
+  mobileNav: (isDark) => ({ position: "sticky", top: 0, zIndex: 999, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 16px", height: "60px", background: isDark ? "rgba(10,10,20,0.97)" : "rgba(255,255,255,0.97)", backdropFilter: "blur(16px)", borderBottom: isDark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)" }),
+  iconBtn: (isDark) => ({ width: "40px", height: "40px", borderRadius: "10px", border: isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.1)", background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)", color: isDark ? "#fff" : "#111", fontSize: "17px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }),
+  mobileIconBtn: (isDark) => ({ width: "38px", height: "38px", borderRadius: "10px", border: isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.1)", background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)", color: isDark ? "#fff" : "#111", fontSize: "16px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }),
+  mobilePlusBtn: { width: "38px", height: "38px", borderRadius: "10px", background: "linear-gradient(135deg,#7c3aed,#6366f1)", color: "#fff", border: "none", fontSize: "22px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 12px rgba(124,58,237,0.4)" },
   mobileAvatar: (isDark) => ({ width: "38px", height: "38px", borderRadius: "50%", background: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)", border: isDark ? "2px solid rgba(255,255,255,0.15)" : "2px solid rgba(0,0,0,0.1)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: "18px", position: "relative", color: isDark ? "#fff" : "#555", fontWeight: 700 }),
-  createBtn:    { padding: "9px 18px", borderRadius: "10px", background: "linear-gradient(135deg,#7c3aed,#6366f1)", color: "#fff", border: "none", cursor: "pointer", fontWeight: 700, fontSize: "14px", boxShadow: "0 4px 14px rgba(124,58,237,0.35)" },
-  loginBtn:     (isDark) => ({ padding: "9px 16px", borderRadius: "10px", background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)", color: isDark ? "#fff" : "#111", border: isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.1)", cursor: "pointer", fontWeight: 600, fontSize: "14px" }),
-  avatar:       (isDark) => ({ width: "32px", height: "32px", borderRadius: "50%", background: "linear-gradient(135deg,#7c3aed,#6366f1)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: "13px", flexShrink: 0 }),
-  userChip:     (isDark) => ({ display: "flex", alignItems: "center", gap: "8px", padding: "5px 10px 5px 5px", borderRadius: "12px", cursor: "pointer", border: isDark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(0,0,0,0.1)", background: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)" }),
-  drop:         (isDark) => ({ position: "absolute", right: 0, top: "52px", width: "200px", background: isDark ? "#0f172a" : "#fff", borderRadius: "14px", border: isDark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(0,0,0,0.1)", boxShadow: "0 16px 40px rgba(0,0,0,0.35)", overflow: "hidden", zIndex: 1000 }),
-  dropItem:     (isDark, danger) => ({ display: "block", width: "100%", textAlign: "left", padding: "11px 16px", border: "none", background: "transparent", color: danger ? "#ef4444" : isDark ? "#e2e8f0" : "#333", fontSize: "14px", cursor: "pointer", borderTop: isDark ? "1px solid rgba(255,255,255,0.04)" : "1px solid rgba(0,0,0,0.04)" }),
+  createBtn: { padding: "9px 18px", borderRadius: "10px", background: "linear-gradient(135deg,#7c3aed,#6366f1)", color: "#fff", border: "none", cursor: "pointer", fontWeight: 700, fontSize: "14px", boxShadow: "0 4px 14px rgba(124,58,237,0.35)" },
+  loginBtn: (isDark) => ({ padding: "9px 16px", borderRadius: "10px", background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)", color: isDark ? "#fff" : "#111", border: isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.1)", cursor: "pointer", fontWeight: 600, fontSize: "14px" }),
+  avatar: (isDark) => ({ width: "32px", height: "32px", borderRadius: "50%", background: "linear-gradient(135deg,#7c3aed,#6366f1)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: "13px", flexShrink: 0 }),
+  userChip: (isDark) => ({ display: "flex", alignItems: "center", gap: "8px", padding: "5px 10px 5px 5px", borderRadius: "12px", cursor: "pointer", border: isDark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(0,0,0,0.1)", background: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)" }),
+  drop: (isDark) => ({ position: "absolute", right: 0, top: "52px", width: "200px", background: isDark ? "#0f172a" : "#fff", borderRadius: "14px", border: isDark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(0,0,0,0.1)", boxShadow: "0 16px 40px rgba(0,0,0,0.35)", overflow: "hidden", zIndex: 1000 }),
+  dropItem: (isDark, danger) => ({ display: "block", width: "100%", textAlign: "left", padding: "11px 16px", border: "none", background: "transparent", color: danger ? "#ef4444" : isDark ? "#e2e8f0" : "#333", fontSize: "14px", cursor: "pointer", borderTop: isDark ? "1px solid rgba(255,255,255,0.04)" : "1px solid rgba(0,0,0,0.04)" }),
 };
 
 export default Home;

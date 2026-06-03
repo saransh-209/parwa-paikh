@@ -19,6 +19,13 @@ function Profile() {
   const [showLogout, setShowLogout] = useState(false);
   const [activeTab, setActiveTab]   = useState("posts");
 
+  /* Edit modal state */
+  const [showEdit, setShowEdit]         = useState(false);
+  const [editName, setEditName]         = useState("");
+  const [editAvatar, setEditAvatar]     = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState("");
+  const [editLoading, setEditLoading]   = useState(false);
+
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", onResize);
@@ -50,6 +57,51 @@ function Profile() {
     if (!token) { navigate("/login"); return; }
     fetchData();
   }, [token, navigate, fetchData]);
+
+  /* Open edit modal */
+  const openEdit = () => {
+    setEditName(user?.name || "");
+    setAvatarPreview(user?.avatar || "");
+    setEditAvatar(null);
+    setShowEdit(true);
+  };
+
+  /* Handle avatar file select */
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setEditAvatar(file);
+    setAvatarPreview(URL.createObjectURL(file));
+  };
+
+  /* Save profile */
+  const handleSave = async () => {
+    if (!editName.trim()) return;
+    try {
+      setEditLoading(true);
+      const formData = new FormData();
+      formData.append("name", editName.trim());
+      if (editAvatar) formData.append("avatar", editAvatar);
+
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/update-profile`,
+        formData,
+        { headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" } }
+      );
+
+      /* Update localStorage */
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("name",  res.data.user.name);
+
+      setUser(res.data.user);
+      setShowEdit(false);
+
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setEditLoading(false);
+    }
+  };
 
   const bookmarks = (() => {
     try { return JSON.parse(localStorage.getItem("bookmarks")) || []; }
@@ -89,14 +141,18 @@ function Profile() {
 
         {/* AVATAR */}
         <div style={{ position: "absolute", top: isMobile ? "-48px" : "-60px", left: isMobile ? "16px" : "32px" }}>
-          <div style={{ width: isMobile ? "90px" : "110px", height: isMobile ? "90px" : "110px", borderRadius: "50%", background: "linear-gradient(135deg,#7c3aed,#a855f7)", border: `4px solid ${isDark ? "#0d0d1a" : "#f8f9fc"}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: isMobile ? "36px" : "44px", fontWeight: 800, color: "#fff" }}>
-            {user?.name?.[0]?.toUpperCase() || "U"}
+          <div style={{ width: isMobile ? "90px" : "110px", height: isMobile ? "90px" : "110px", borderRadius: "50%", background: "linear-gradient(135deg,#7c3aed,#a855f7)", border: `4px solid ${isDark ? "#0d0d1a" : "#f8f9fc"}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: isMobile ? "36px" : "44px", fontWeight: 800, color: "#fff", overflow: "hidden", flexShrink: 0 }}>
+            {user?.avatar
+              ? <img src={user.avatar} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              : user?.name?.[0]?.toUpperCase() || "U"
+            }
           </div>
         </div>
 
         {/* TOP BUTTONS */}
         <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "16px", gap: "10px" }}>
-          <button style={{ padding: "8px 18px", borderRadius: "10px", border: isDark ? "1px solid rgba(255,255,255,0.15)" : "1px solid rgba(0,0,0,0.15)", background: "transparent", color: isDark ? "#fff" : "#111", fontSize: "13px", fontWeight: 600, cursor: "pointer" }}>
+          <button onClick={openEdit}
+            style={{ padding: "8px 18px", borderRadius: "10px", border: isDark ? "1px solid rgba(255,255,255,0.15)" : "1px solid rgba(0,0,0,0.15)", background: "transparent", color: isDark ? "#fff" : "#111", fontSize: "13px", fontWeight: 600, cursor: "pointer" }}>
             ✏ Edit Profile
           </button>
           <button onClick={() => setShowLogout(true)}
@@ -136,7 +192,7 @@ function Profile() {
 
         {/* PERSONAL INFO */}
         <div style={{ background: isDark ? "#111827" : "#fff", borderRadius: "16px", padding: "24px", border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.08)", marginBottom: "24px", boxShadow: "0 2px 10px rgba(0,0,0,0.08)" }}>
-          <h3 style={{ fontSize: "16px", fontWeight: 700, color: isDark ? "#fff" : "#111", marginBottom: "20px", display: "flex", alignItems: "center", gap: "8px", margin: "0 0 20px" }}>
+          <h3 style={{ fontSize: "16px", fontWeight: 700, color: isDark ? "#fff" : "#111", margin: "0 0 20px", display: "flex", alignItems: "center", gap: "8px" }}>
             👤 Personal Information
           </h3>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "12px" }}>
@@ -186,12 +242,9 @@ function Profile() {
                 <div key={post._id} style={{ borderRadius: "14px", overflow: "hidden", background: isDark ? "#111827" : "#fff", border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.08)", cursor: "pointer", boxShadow: "0 2px 10px rgba(0,0,0,0.1)" }}
                   onClick={() => navigate(`/post/${post._id}`)}>
                   <div style={{ height: "140px", overflow: "hidden", background: "#1f2937", position: "relative" }}>
-                    {post.image
-                      ? <img src={post.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    {post.image ? <img src={post.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                       : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "#6b7280" }}>No Cover</div>}
-                    {post.category && (
-                      <div style={{ position: "absolute", top: "8px", left: "8px", padding: "3px 8px", borderRadius: "6px", fontSize: "10px", fontWeight: 700, color: "#fff", background: "#7c3aed" }}>{post.category}</div>
-                    )}
+                    {post.category && <div style={{ position: "absolute", top: "8px", left: "8px", padding: "3px 8px", borderRadius: "6px", fontSize: "10px", fontWeight: 700, color: "#fff", background: "#7c3aed" }}>{post.category}</div>}
                   </div>
                   <div style={{ padding: "12px" }}>
                     <h4 style={{ fontSize: "14px", fontWeight: 700, color: isDark ? "#fff" : "#111", margin: "0 0 4px" }}>{post.title}</h4>
@@ -216,8 +269,7 @@ function Profile() {
                 <div key={post._id} style={{ borderRadius: "14px", overflow: "hidden", background: isDark ? "#111827" : "#fff", border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.08)", cursor: "pointer", boxShadow: "0 2px 10px rgba(0,0,0,0.1)" }}
                   onClick={() => navigate(`/post/${post._id}`)}>
                   <div style={{ height: "140px", overflow: "hidden", background: "#1f2937" }}>
-                    {post.image
-                      ? <img src={post.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    {post.image ? <img src={post.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                       : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "#6b7280" }}>No Cover</div>}
                   </div>
                   <div style={{ padding: "12px" }}>
@@ -237,12 +289,8 @@ function Profile() {
               {[
                 { icon: "🎉", text: "Joined Parwa Paikh",  time: joinDate, color: "#7c3aed" },
                 { icon: "✅", text: "Account created",     time: joinDate, color: "#10b981" },
-                ...(role === "author" && posts.length > 0 ? [
-                  { icon: "📝", text: `Published ${posts.length} post${posts.length > 1 ? "s" : ""}`, time: posts[0]?.createdAt ? fmtDate(posts[0].createdAt) : "", color: "#6366f1" }
-                ] : []),
-                ...(bookmarks.length > 0 ? [
-                  { icon: "🔖", text: `Saved ${bookmarks.length} bookmark${bookmarks.length > 1 ? "s" : ""}`, time: "Recently", color: "#f59e0b" }
-                ] : []),
+                ...(role === "author" && posts.length > 0 ? [{ icon: "📝", text: `Published ${posts.length} post${posts.length > 1 ? "s" : ""}`, time: posts[0]?.createdAt ? fmtDate(posts[0].createdAt) : "", color: "#6366f1" }] : []),
+                ...(bookmarks.length > 0 ? [{ icon: "🔖", text: `Saved ${bookmarks.length} bookmark${bookmarks.length > 1 ? "s" : ""}`, time: "Recently", color: "#f59e0b" }] : []),
               ].map((a, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: "14px" }}>
                   <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: `${a.color}22`, border: `2px solid ${a.color}44`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px", flexShrink: 0 }}>{a.icon}</div>
@@ -257,6 +305,56 @@ function Profile() {
         )}
 
       </div>
+
+      {/* ── EDIT PROFILE MODAL ── */}
+      {showEdit && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.65)", display: "flex", justifyContent: "center", alignItems: "center", zIndex: 9999, padding: "20px" }}>
+          <div style={{ background: isDark ? "#0f172a" : "#fff", borderRadius: "24px", width: "100%", maxWidth: "420px", padding: "32px", border: isDark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(0,0,0,0.1)", boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}>
+
+            <h3 style={{ fontSize: "20px", fontWeight: 800, color: isDark ? "#fff" : "#111", margin: "0 0 24px", textAlign: "center" }}>
+              ✏ Edit Profile
+            </h3>
+
+            {/* Avatar picker */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "24px" }}>
+              <div style={{ width: "90px", height: "90px", borderRadius: "50%", overflow: "hidden", background: "linear-gradient(135deg,#7c3aed,#a855f7)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "36px", fontWeight: 800, color: "#fff", marginBottom: "12px", border: "3px solid rgba(168,85,247,0.4)", cursor: "pointer", position: "relative" }}
+                onClick={() => document.getElementById("avatarInput").click()}>
+                {avatarPreview
+                  ? <img src={avatarPreview} alt="preview" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  : user?.name?.[0]?.toUpperCase() || "U"
+                }
+                <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.35)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "22px" }}>📷</div>
+              </div>
+              <input id="avatarInput" type="file" accept="image/*" style={{ display: "none" }} onChange={handleAvatarChange} />
+              <span style={{ fontSize: "12px", color: isDark ? "#94a3b8" : "#888" }}>Tap to change photo</span>
+            </div>
+
+            {/* Name input */}
+            <div style={{ marginBottom: "24px" }}>
+              <label style={{ fontSize: "13px", fontWeight: 600, color: isDark ? "#94a3b8" : "#666", display: "block", marginBottom: "8px", letterSpacing: "0.5px", textTransform: "uppercase" }}>Full Name</label>
+              <input
+                value={editName}
+                onChange={e => setEditName(e.target.value)}
+                placeholder="Enter your name"
+                style={{ width: "100%", padding: "13px 16px", borderRadius: "12px", border: isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.12)", background: isDark ? "rgba(255,255,255,0.06)" : "#f8f9fc", color: isDark ? "#fff" : "#111", fontSize: "15px", outline: "none", boxSizing: "border-box" }}
+              />
+            </div>
+
+            {/* Buttons */}
+            <div style={{ display: "flex", gap: "10px" }}>
+              <button onClick={() => setShowEdit(false)}
+                style={{ flex: 1, padding: "13px", background: isDark ? "#1f2937" : "#f1f5f9", color: isDark ? "#fff" : "#111", border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: 600, fontSize: "14px" }}>
+                Cancel
+              </button>
+              <button onClick={handleSave} disabled={editLoading || !editName.trim()}
+                style={{ flex: 1, padding: "13px", background: editName.trim() ? "linear-gradient(135deg,#7c3aed,#a855f7)" : "#4b5563", color: "#fff", border: "none", borderRadius: "12px", cursor: editName.trim() ? "pointer" : "not-allowed", fontWeight: 700, fontSize: "14px", boxShadow: editName.trim() ? "0 4px 14px rgba(124,58,237,0.35)" : "none" }}>
+                {editLoading ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
 
       {/* LOGOUT MODAL */}
       {showLogout && (
@@ -274,8 +372,18 @@ function Profile() {
         </div>
       )}
 
-      <footer style={{ padding: "20px", textAlign: "center", fontSize: "13px", background: isDark ? "#08090f" : "#1e1b4b", color: isDark ? "#94a3b8" : "#a78bfa", marginTop: "24px" }}>
-        <p>© 2026 Saransh | All Rights Reserved</p>
+      <footer style={{ padding: "12px 20px", textAlign: "center", fontSize: "12px", background: isDark ? "#08090f" : "#1e1b4b", color: isDark ? "#94a3b8" : "#a78bfa", marginTop: "24px" }}>
+        <p style={{ margin: "0 0 6px" }}>© 2026 Saransh | All Rights Reserved</p>
+        <div style={{ display: "flex", gap: "16px", justifyContent: "center" }}>
+          <span style={{ cursor: "pointer", textDecoration: "underline" }}
+            onClick={() => alert("Terms of Service\n\n1. Content Responsibility: All published content is the sole responsibility of the creator. Hate speech, copyright violations and inappropriate content are strictly prohibited.\n\n2. Account Usage: Your account is personal and non-transferable. You are responsible for maintaining confidentiality of your credentials.\n\n3. Intellectual Property: Original content you publish remains yours. By posting, you grant Parwa Paikh a non-exclusive license to display your content.\n\n4. Prohibited Content: Spam, adult content, misinformation and impersonation are strictly prohibited.\n\n5. Termination: We reserve the right to suspend accounts that violate these terms.")}>
+            Terms of Service
+          </span>
+          <span style={{ cursor: "pointer", textDecoration: "underline" }}
+            onClick={() => alert("Privacy Policy\n\n1. Data Collection: We collect your name, email address and content you publish.\n\n2. Data Usage: Your data is used solely to operate and improve the platform. We do not sell or share your personal information with third parties.\n\n3. Authentication: Passwords are encrypted and never stored in plain text. Google login is handled securely via Firebase Authentication.\n\n4. Cookies: We use local storage to maintain your session and preferences.\n\n5. Data Security: We implement industry-standard security measures to protect your data.")}>
+            Privacy Policy
+          </span>
+        </div>
       </footer>
 
     </div>
