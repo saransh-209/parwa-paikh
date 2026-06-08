@@ -274,7 +274,7 @@ function Home() {
                 <span style={{ fontSize: "12px", color: "#f0abfc", fontWeight: 700, textShadow: "0 1px 8px rgba(0,0,0,0.9)" }}>मिथिला के शब्द, हमर पहचान</span>
               </div>
               <h1 style={{ fontSize: isMobile ? "26px" : "50px", fontWeight: 800, color: "#fff", margin: 0, lineHeight: 1.1, textShadow: "0 3px 12px rgba(0,0,0,0.9), 0 1px 4px rgba(0,0,0,0.9)" }}>Discover</h1>
-              <h1 style={{ fontSize: isMobile ? "22px" : "44px", fontWeight: 800, color: "#e879f9", margin: "2px 0 10px", lineHeight: 1.1, textShadow: "0 2px 12px rgba(0,0,0,0.8), 0 0 30px rgba(0,0,0,0.6)" }}>मैथिली साहित्य</h1>
+              <h1 style={{ fontSize: isMobile ? "22px" : "44px", fontWeight: 800, color: "#50135a", margin: "2px 0 10px", lineHeight: 1.1, textShadow: "0 2px 12px rgba(0,0,0,0.8), 0 0 30px rgba(0,0,0,0.6)" }}>मैथिली साहित्य</h1>
               <p style={{ fontSize: isMobile ? "12px" : "15px", color: "#fff", maxWidth: "280px", lineHeight: 1.5, fontWeight: 600, textShadow: "0 1px 8px rgba(0,0,0,0.9)" }}>Explore poetry, lyrics and stories from amazing creators.</p>
             </div>
           </div>

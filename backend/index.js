@@ -155,6 +155,45 @@ app.get("/dashboard", verifyToken, async (req, res) => {
   } catch (err) { console.log(err); res.status(500).send("Server Error ❌"); }
 });
 
+/* UPDATE PROFILE */
+app.post("/update-profile", verifyToken, upload.single("avatar"), async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).send("User not found ❌");
+
+    if (req.body?.name?.trim()) {
+      user.name = req.body.name.trim();
+    }
+
+    if (req.file) {
+      if (user.avatar) {
+        try {
+          const oldPublicId = user.avatar
+            .split("/upload/")[1]
+            .split(".")[0]
+            .replace(/v[\d]+\//, "");
+          await cloudinary.uploader.destroy(oldPublicId);
+        } catch (e) { console.log(e); }
+      }
+      user.avatar = req.file.path;
+    }
+
+    await user.save();
+
+    const token = jwt.sign(
+      { id: user._id, role: user.role, name: user.name },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.json({ token, user });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error ❌");
+  }
+});
+
 /* ══════════════════════════════════
    POSTS
 ══════════════════════════════════ */
